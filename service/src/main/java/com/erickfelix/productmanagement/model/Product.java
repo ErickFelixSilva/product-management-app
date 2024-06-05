@@ -1,8 +1,10 @@
 package com.erickfelix.productmanagement.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Product {
 
     @Id
