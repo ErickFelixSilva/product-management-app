@@ -1,37 +1,43 @@
 <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4">{{ editMode ? 'Edit Product' : 'Create Product' }}</h2>
     <form #productForm="ngForm" (ngSubmit)="saveProduct()" class="space-y-4">
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" [(ngModel)]="product.name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-        <div *ngIf="productForm.submitted && !product.name" class="text-red-500">Name is required</div>
-      </div>
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-        <input type="text" id="description" [(ngModel)]="product.description" name="description" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-        <div *ngIf="productForm.submitted && !product.description" class="text-red-500">Description is required</div>
-      </div>
-      <div>
-        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-        <input type="number" id="price" [(ngModel)]="product.price" name="price" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-      </div>
-      <div class="flex flex-row gap-1">
-        <label for="available" class="block text-sm font-medium text-gray-700">Available</label>
-        <input type="checkbox" id="available" [(ngModel)]="product.available" name="available" class="mb-1">
-      </div>
-      <div>
-        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-        <select id="category" [(ngModel)]="product.category.id" name="category" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          <ng-container *ngFor="let category of categories">
-            <option [value]="category.id">{{ category.name }}</option>
-            <ng-container *ngFor="let subCategory of category.subCategories">
-              <option [value]="subCategory.id">-- {{ subCategory.name }}</option>
-            </ng-container>
-          </ng-container>
-        </select>
-        <div *ngIf="productForm.submitted && !product.category.id" class="text-red-500">Category is required</div>
-      </div>
-      <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">{{ editMode ? 'Update' : 'Create' }}</button>
+        <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" [(ngModel)]="product.name" name="name" required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+            <div *ngIf="productForm.submitted && !product.name" class="text-red-500">Name is required</div>
+        </div>
+        <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <input type="text" id="description" [(ngModel)]="product.description" name="description" required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+            <div *ngIf="productForm.submitted && !product.description" class="text-red-500">Description is required
+            </div>
+        </div>
+        <div>
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" [(ngModel)]="product.price" name="price" required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex flex-row gap-1">
+            <label for="available" class="block text-sm font-medium text-gray-700">Available</label>
+            <input type="checkbox" id="available" [(ngModel)]="product.available" name="available" class="mb-1">
+        </div>
+        <div>
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select id="category" [(ngModel)]="product.category.id" name="category" required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                <ng-container *ngFor="let category of categories">
+                    <option [value]="category.id">{{ category.name }}</option>
+                    <ng-container *ngFor="let subCategory of category.subCategories">
+                        <option [value]="subCategory.id">-- {{ subCategory.name }}</option>
+                    </ng-container>
+                </ng-container>
+            </select>
+            <div *ngIf="productForm.submitted && !product.category.id" class="text-red-500">Category is required</div>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">{{ editMode ?
+            'Update' : 'Create' }}</button>
     </form>
-  </div>
-  
+</div>

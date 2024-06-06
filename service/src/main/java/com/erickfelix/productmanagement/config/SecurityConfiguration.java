@@ -4,6 +4,7 @@ import com.erickfelix.productmanagement.service.UserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +27,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    private static final String PRODUCTS_ENDPOINT = "/products/**";
+    private static final String ADMIN_ROLE = "ADMIN";
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     public SecurityConfiguration(UserDetailsServiceImpl userDetailsServiceImpl) {
@@ -39,7 +42,10 @@ public class SecurityConfiguration {
                 authorizeRequests
                     .requestMatchers("/public/**", "/login").permitAll()
                     .requestMatchers("/error").permitAll()
-                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/h2-console/**").hasRole(ADMIN_ROLE)
+//                    .requestMatchers(HttpMethod.POST, PRODUCTS_ENDPOINT).hasRole(ADMIN_ROLE)
+                    .requestMatchers(HttpMethod.PUT, PRODUCTS_ENDPOINT).hasRole(ADMIN_ROLE)
+                    .requestMatchers(HttpMethod.DELETE, PRODUCTS_ENDPOINT).hasRole(ADMIN_ROLE)
                     .anyRequest().permitAll()
             ).cors(withDefaults())
             .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

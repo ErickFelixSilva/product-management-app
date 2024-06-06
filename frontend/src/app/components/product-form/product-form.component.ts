@@ -5,6 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { Category, Product } from '../../models/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../services/category.service';
+import { ErrorHandlerService } from '../../services/error-handler.service';
 
 @Component({
 	selector: 'app-product-form',
@@ -24,10 +25,12 @@ export class ProductFormComponent implements OnInit {
 	};
 	categories: Category[] = [];
 	editMode = false;
+	errorMessage: string = '';
 
 	constructor(
 		private productService: ProductService,
 		private categoryService: CategoryService,
+		private errorHandlerService: ErrorHandlerService,
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
@@ -54,8 +57,9 @@ export class ProductFormComponent implements OnInit {
 
 	saveProduct(): void {
 		if (this.editMode) {
-			this.productService.updateProduct(this.product.id, this.product).subscribe(() => {
-				this.router.navigate(['/products']);
+			this.productService.updateProduct(this.product.id, this.product).subscribe({
+				next: () => this.router.navigate(['/products']),
+				error: error => this.errorMessage = this.errorHandlerService.handleError(error),
 			});
 		} else {
 			this.productService.createProduct(this.product).subscribe(() => {

@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../models/models';
 import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
+import { ErrorHandlerService } from '../../services/error-handler.service';
 
 @Component({
     selector: 'app-product-list',
@@ -15,9 +16,11 @@ import { FormsModule } from '@angular/forms';
 export class ProductListComponent implements OnInit {
     products: Product[] = [];
     sortCriteria: string = 'name';
+    errorMessage: string = '';
 
     constructor(private productService: ProductService,
         private router: Router,
+        private errorHandlerService: ErrorHandlerService,
     ) { }
 
     fetchProducts(): void {
@@ -53,7 +56,7 @@ export class ProductListComponent implements OnInit {
     deleteProduct(id: number): void {
         this.productService.deleteProduct(id).subscribe({
             next: () => this.fetchProducts(),
-            error: error => console.log(error)
+            error: error => this.errorMessage = this.errorHandlerService.handleError(error),
         });
     }
 }

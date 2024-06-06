@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/models';
 
 const API_URL: string = 'http://localhost:8080/products';
+const HEADER = { withCredentials: true };
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,10 @@ export class ProductService {
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${API_URL}/${id}`, product);
+    return this.http.put<Product>(`${API_URL}/${id}`, product, HEADER);
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${API_URL}/${id}`);
+    return this.http.delete<void>(`${API_URL}/${id}`, HEADER);
   }
 }
