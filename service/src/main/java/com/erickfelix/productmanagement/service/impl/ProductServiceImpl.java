@@ -35,10 +35,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Long id, Product product) {
         return productRepository.findById(id).map(existingProduct -> {
-            existingProduct.setName(existingProduct.getName());
-            existingProduct.setDescription(existingProduct.getDescription());
-            existingProduct.setPrice(existingProduct.getPrice());
-            existingProduct.setAvailable(existingProduct.getAvailable());
+            existingProduct.setName(product.getName());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setPrice(product.getPrice());
+            existingProduct.setAvailable(product.getAvailable());
             return productRepository.save(existingProduct);
         }).orElseGet(() -> {
             product.setId(id);
